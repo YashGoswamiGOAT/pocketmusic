@@ -1,4 +1,4 @@
-from pytube import YouTube, Search
+from pytube import YouTube, Search, Playlist
 from io import BytesIO
 
 def urlID_to_Buffer(id):
@@ -21,5 +21,17 @@ def searchYotube(q):
             'title' : search.title,
             'image' : search.thumbnail_url,
             'id' : search.video_id
+        })
+    return res
+
+def playlistFetch(url):
+    playlist_ = Playlist(url)
+    res = []
+    for video in playlist_:
+        videoOBJ = YouTube(video)
+        res.append({
+            'title': videoOBJ.title,
+            'image': videoOBJ.thumbnail_url,
+            'id': videoOBJ.video_id
         })
     return res

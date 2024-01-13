@@ -1,6 +1,6 @@
-from flask import Flask, send_file
+from flask import Flask, send_file, request
 from flask_cors import CORS
-from support import urlID_to_Buffer, searchYotube
+from support import urlID_to_Buffer, searchYotube, playlistFetch
 app = Flask(__name__)
 
 CORS(app)
@@ -17,6 +17,12 @@ def stream(id):
 @app.route('/get/<q>')
 def searcher(q):
     return searchYotube(q)
+
+@app.route('/playlist',methods=['POST'])
+def playlist():
+    url = request.json['playlist']
+    return playlistFetch(url)
+
 
 if __name__=='__main__':
     app.run()
